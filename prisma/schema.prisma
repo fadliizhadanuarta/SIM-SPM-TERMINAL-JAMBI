@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  namaLengkap   String
+  nip           String?
+  email         String    @unique
+  nomorHp       String?
+  username      String    @unique
+  password      String
+  role          UserRole  @default(PETUGAS)
+  terminal      String?
+  statusAkun    StatusAkun @default(MENUNGGU)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  laporan       PelaporanSPM[]
+}
+
+model Terminal {
+  id          String       @id @default(cuid())
+  namaTerminal String      @unique
+  lokasi      String
+  koordinat   String?
+  status      Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  laporan     PelaporanSPM[]
+}
+
+model IndikatorSPM {
+  id          String       @id @default(cuid())
+  namaIndikator String      @unique
+  kategori    String
+  target      String
+  satuan      String
+  keterangan  String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  laporan     PelaporanSPM[]
+}
+
+model PelaporanSPM {
+  id              String        @id @default(cuid())
+  idTerminal      String
+  bulan           Int
+  tahun           Int
+  idIndikator     String
+  statusPemenuhan StatusPemenuhan
+  nilaiRealisasi  String
+  keterangan      String?
+  petugasInput    String
+  tanggalInput    DateTime      @default(now())
+  statusVerifikasi StatusVerifikasi @default(PENDING)
+  catatanVerifikasi String?
+  verifiedBy      String?
+  verifiedAt      DateTime?
+  
+  terminal        Terminal      @relation(fields: [idTerminal], references: [id], onDelete: Cascade)
+  indikator       IndikatorSPM  @relation(fields: [idIndikator], references: [id], onDelete: Cascade)
+  petugas         User          @relation(fields: [petugasInput], references: [id], onDelete: Cascade)
+  dokumentasi     Dokumentasi[]
+}
+
+model Dokumentasi {
+  id          String       @id @default(cuid())
+  idLaporan   String
+  fileFoto    String
+  deskripsi   String?
+  tanggalUpload DateTime   @default(now())
+  
+  laporan     PelaporanSPM @relation(fields: [idLaporan], references: [id], onDelete: Cascade)
+}
+
+enum UserRole {
+  ADMIN
+  PETUGAS
+  PIMPINAN
+}
+
+enum StatusAkun {
+  AKTIF
+  MENUNGGU
+  NONAKTIF
+}
+
+enum StatusPemenuhan {
+  MEMENUHI
+  TIDAK_MEMENUHI
+}
+
+enum StatusVerifikasi {
+  PENDING
+  APPROVED
+  REJECTED
+}

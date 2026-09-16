@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <circle cx="100" cy="100" r="95" fill="#1e3a5f" stroke="#c4a24e" stroke-width="4"/>
+  <circle cx="100" cy="100" r="80" fill="none" stroke="#c4a24e" stroke-width="2"/>
+  <!-- Wing symbol -->
+  <path d="M100 35 L85 75 L100 65 L115 75 Z" fill="#c4a24e"/>
+  <path d="M75 65 L65 95 L80 85 Z" fill="#c4a24e" opacity="0.8"/>
+  <path d="M125 65 L135 95 L120 85 Z" fill="#c4a24e" opacity="0.8"/>
+  <!-- Gear/cog bottom -->
+  <rect x="88" y="90" width="24" height="30" rx="2" fill="#c4a24e"/>
+  <circle cx="100" cy="105" r="8" fill="#1e3a5f"/>
+  <!-- Text -->
+  <text x="100" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#c4a24e">KEMENHUB</text>
+  <text x="100" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#ffffff">REPUBLIK INDONESIA</text>
+</svg>
